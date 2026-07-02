@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抵Buy PPT Background</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#fffdf8;
+    --ink:#161221;
+    --magenta:#ff1f6b;
+    --lemon:#ffe14d;
+    --cobalt:#2b4bff;
+    --edge:5px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{
+    height:100%;
+    background:var(--white);
+    overflow:hidden;
+  }
+
+  .slide{
+    position:fixed;
+    top:50%;left:50%;
+    width:100vw;
+    height:calc(100vw * 9 / 16);
+    min-height:100vh;
+    min-width:calc(100vh * 16 / 9);
+    transform:translate(-50%,-50%);
+    aspect-ratio:16/9;
+    background:var(--white);
+    overflow:hidden;
+  }
+
+  /* dotted texture */
+  .slide::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:radial-gradient(var(--ink) 1.4px, transparent 1.4px);
+    background-size:26px 26px;
+    opacity:.05;
+    z-index:0;
+  }
+
+  /* corner blobs */
+  .blob{
+    position:absolute;border-radius:50%;filter:blur(3px);z-index:1;
+  }
+  .blob.a{
+    width:340px;height:340px;background:var(--lemon);
+    top:-120px;left:-120px;opacity:.9;
+    animation:floatA 10s ease-in-out infinite alternate;
+  }
+  .blob.b{
+    width:260px;height:260px;background:var(--cobalt);
+    bottom:-90px;right:-80px;opacity:.85;
+    animation:floatB 12s ease-in-out infinite alternate;
+  }
+  .blob.c{
+    width:140px;height:140px;background:var(--magenta);
+    top:28%;right:8%;opacity:.8;
+    animation:floatC 9s ease-in-out infinite alternate;
+  }
+
+  /* decorative dashes */
+  .dash{
+    position:absolute;width:44px;height:11px;border-radius:11px;z-index:1;
+  }
+  .dash.d1{background:var(--cobalt);top:16%;left:14%;transform:rotate(-18deg);animation:wiggle 7s ease-in-out infinite}
+  .dash.d2{background:var(--magenta);top:12%;right:22%;transform:rotate(24deg);animation:wiggle 8s ease-in-out infinite reverse}
+  .dash.d3{background:var(--lemon);bottom:22%;right:16%;transform:rotate(-30deg);box-shadow:0 0 0 3px var(--ink);animation:wiggle 6s ease-in-out infinite}
+
+  /* sparkles */
+  .star-lil{
+    position:absolute;font-family:"Fredoka";font-weight:700;z-index:1;
+    font-size:32px;
+  }
+  .star-lil.s1{top:34%;left:10%;color:var(--magenta);transform:rotate(-12deg);animation:twinkle 4s ease-in-out infinite}
+  .star-lil.s2{bottom:34%;left:46%;color:var(--cobalt);transform:rotate(15deg);animation:twinkle 5s ease-in-out infinite .5s}
+  .star-lil.s3{top:18%;right:38%;color:var(--lemon);text-shadow:0 0 0 2px var(--ink);transform:rotate(-8deg);animation:twinkle 4.5s ease-in-out infinite 1s}
+
+  /* brand chip */
+  .brand-chip{
+    position:absolute;top:5%;left:5%;z-index:5;
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--magenta);color:#fff;
+    font-family:"Fredoka","Noto Sans TC";font-weight:700;
+    font-size:clamp(22px,2.8vw,40px);
+    padding:12px 24px;border-radius:50px;
+    border:var(--edge) solid var(--ink);
+    box-shadow:6px 6px 0 var(--ink);
+    transform:rotate(-1.5deg);
+  }
+  .brand-chip span{color:var(--lemon)}
+
+  /* theme chip */
+  .theme-chip{
+    position:absolute;top:5%;right:5%;z-index:5;
+    font-family:"Noto Sans TC";font-weight:700;
+    font-size:clamp(13px,1.4vw,20px);
+    background:var(--lemon);color:var(--ink);
+    border:var(--edge) solid var(--ink);
+    padding:10px 18px;border-radius:14px;
+    transform:rotate(1.8deg);
+    box-shadow:5px 5px 0 var(--ink);
+  }
+
+  /* bottom-left peel sticker */
+  .peel{
+    position:absolute;bottom:6%;left:5%;z-index:5;
+    background:var(--lemon);
+    border:var(--edge) solid var(--ink);border-radius:16px;
+    font-family:"Noto Sans TC";font-weight:900;
+    font-size:clamp(14px,1.4vw,20px);
+    padding:12px 20px;transform:rotate(-5deg);
+    box-shadow:5px 5px 0 var(--ink);
+  }
+
+  /* bottom-right starburst */
+  .starburst{
+    position:absolute;bottom:4%;right:4%;z-index:5;
+    width:clamp(100px,12vw,160px);aspect-ratio:1;
+    background:conic-gradient(var(--cobalt) 0 18deg,var(--lemon) 18deg 36deg);
+    border-radius:50%;
+    clip-path:polygon(100% 50%,84.6% 57.4%,93.3% 71.7%,77% 68.8%,79.4% 85.4%,66.1% 75.3%,61.8% 91.5%,53.5% 76.8%,44% 90.5%,42% 73.7%,26.8% 81.1%,31.5% 64.9%,15.2% 66.6%,25.7% 53.4%,10.4% 47.6%,25.6% 42.1%,13.4% 30.5%,30.2% 31.7%,23.4% 16.3%,38.4% 24%,38.3% 7%,49.9% 19.4%,58% 4.4%,62.1% 20.8%,76.5% 12%,73.9% 28.7%,90.6% 25.3%,80.3% 38.6%,96.7% 42.9%,81.8% 50%)
+      ,polygon(50% 0,50% 0);
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(-12deg);
+    filter:drop-shadow(4px 5px 0 var(--ink));
+    animation:spinSlow 20s linear infinite;
+  }
+  .starburst-inner{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;line-height:.95;
+    transform:rotate(12deg);
+  }
+  .starburst .off{
+    font-family:"Poppins";font-weight:800;color:#fff;
+    font-size:clamp(24px,3vw,40px);
+    text-shadow:2px 2px 0 var(--ink);
+  }
+  .starburst .zi{
+    font-family:"Noto Sans TC";font-weight:900;color:var(--ink);
+    font-size:clamp(11px,1.2vw,16px);
+    background:#fff;border-radius:20px;padding:2px 8px;margin-top:4px;
+    border:2px solid var(--ink);
+  }
+
+  /* footer strip */
+  .footer-strip{
+    position:absolute;bottom:0;left:0;right:0;z-index:4;
+    background:var(--ink);color:var(--white);
+    font-family:"Noto Sans TC";font-weight:700;
+    font-size:clamp(11px,1vw,15px);
+    padding:10px 5%;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .footer-strip b{color:var(--lemon)}
+
+  /* subtle safe-area guide (optional preview hint) */
+  .safe-area{
+    position:absolute;
+    inset:10% 8% 14% 8%;
+    border:2px dashed rgba(22,18,33,.12);
+    border-radius:20px;
+    z-index:2;
+    pointer-events:none;
+  }
+
+  @keyframes floatA{
+    0%{transform:translate(0,0)}
+    100%{transform:translate(18px,14px)}
+  }
+  @keyframes floatB{
+    0%{transform:translate(0,0)}
+    100%{transform:translate(-14px,-18px)}
+  }
+  @keyframes floatC{
+    0%{transform:translate(0,0)}
+    100%{transform:translate(10px,-10px)}
+  }
+  @keyframes wiggle{
+    0%,100%{transform:rotate(-18deg)}
+    50%{transform:rotate(-14deg) translateY(3px)}
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:.85;transform:scale(1) rotate(-12deg)}
+    50%{opacity:1;transform:scale(1.15) rotate(-8deg)}
+  }
+  @keyframes spinSlow{
+    0%{transform:rotate(-12deg)}
+    100%{transform:rotate(348deg)}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .blob,.dash,.star-lil,.starburst{
+      animation:none!important;
+    }
+  }
+
+  /* export mode: remove viewport centering and grey background for clean screenshot */
+  @media print{
+    html,body{background:#fff}
+    .slide{box-shadow:none;width:100vw;aspect-ratio:16/9}
+    .safe-area{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="slide" aria-label="抵Buy PowerPoint background">
+  <span class="blob a"></span>
+  <span class="blob b"></span>
+  <span class="blob c"></span>
+
+  <span class="dash d1"></span>
+  <span class="dash d2"></span>
+  <span class="dash d3"></span>
+
+  <span class="star-lil s1">✦</span>
+  <span class="star-lil s2">✦</span>
+  <span class="star-lil s3">✦</span>
+
+  <div class="brand-chip">抵<span>Buy</span></div>
+  <div class="theme-chip">智慧城市 · 人工智能</div>
+
+  <div class="safe-area"></div>
+
+  <div class="peel">✂ 慳錢由此起</div>
+
+  <div class="starburst">
+    <div class="starburst-inner">
+      <span class="off">-50%</span>
+      <span class="zi">超 抵</span>
+    </div>
+  </div>
+
+  <div class="footer-strip">
+    <span>🏆 國際青少年創科教育大賽 <b>2026</b></span>
+    <span>香港學生慳錢神器 · HK Student Deal</span>
+  </div>
+</div>
+</body>
+</html>

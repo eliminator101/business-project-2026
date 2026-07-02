@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抵Buy（DaiBuy）— 簡報視覺</title>
+<style>
+  :root{
+    --accent:#ff2d6b;
+    --accent-soft:#ffe1ec;
+    --ink:#191933;
+    --muted:#6b6b85;
+    --line:#e6e6ef;
+    --bg:#ffffff;
+    --shadow:0 18px 45px rgba(25,25,51,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"PingFang HK","Microsoft JhengHei","Noto Sans TC",-apple-system,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+  /* scroller: native wheel scroll, programmatic smooth scroll for arrows */
+  #scroller{
+    height:100vh;
+    overflow-y:scroll;
+    overflow-x:hidden;
+  }
+  .slide{
+    height:100vh;
+    width:100%;
+    padding:5vh 6vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .tag{
+    position:absolute;top:26px;left:6vw;
+    font-weight:800;letter-spacing:.5px;font-size:20px;
+  }
+  .tag b{color:var(--accent);}
+  .snum{
+    position:absolute;top:26px;right:6vw;
+    font-size:13px;color:var(--muted);font-weight:600;letter-spacing:1px;
+  }
+  .kicker{
+    display:inline-block;background:var(--accent-soft);color:var(--accent);
+    font-weight:800;font-size:15px;padding:7px 16px;border-radius:100px;margin-bottom:22px;
+    align-self:flex-start;
+  }
+  h1{font-size:clamp(34px,6vw,74px);line-height:1.05;letter-spacing:-1px;}
+  h2{font-size:clamp(26px,3.4vw,44px);line-height:1.12;margin-bottom:8px;}
+  .sub{color:var(--muted);font-size:clamp(15px,1.5vw,20px);margin-top:14px;line-height:1.6;}
+  .accent{color:var(--accent);}
+
+  /* ---------- Slide 0 title ---------- */
+  .center{align-items:center;text-align:center;}
+  .logo-xl{font-size:clamp(60px,12vw,150px);font-weight:900;letter-spacing:-3px;}
+  .logo-xl .b{color:var(--accent);}
+  .tagline{font-size:clamp(18px,2.4vw,30px);font-weight:700;color:var(--muted);margin-top:6px;}
+  .names{margin-top:34px;color:var(--muted);font-size:16px;line-height:1.9;}
+  .skyline{position:absolute;bottom:0;left:0;width:100%;height:130px;opacity:.9;}
+
+  /* ---------- generic layout ---------- */
+  .row{display:flex;gap:28px;align-items:stretch;}
+  .col{flex:1;}
+  .grow{flex:1;display:flex;align-items:center;}
+
+  /* phone mock */
+  .phone{
+    width:210px;min-height:400px;border-radius:34px;background:#fff;
+    border:3px solid var(--ink);box-shadow:var(--shadow);padding:16px 14px;margin:0 auto;
+    display:flex;flex-direction:column;gap:10px;position:relative;
+  }
+  .phone::before{content:"";position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:70px;height:6px;border-radius:6px;background:var(--ink);opacity:.25;}
+  .phone .p-title{margin-top:14px;font-weight:800;font-size:14px;}
+  .deal-card{background:#faf7fb;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:12px;line-height:1.5;}
+  .deal-card .pct{color:var(--accent);font-weight:900;font-size:16px;}
+
+  /* problem side */
+  .chaos{position:relative;height:300px;border:2px dashed var(--line);border-radius:20px;background:#fbfbfe;}
+  .chip{position:absolute;background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:8px 12px;font-weight:700;font-size:13px;box-shadow:0 6px 14px rgba(0,0,0,.06);}
+  .banner{display:flex;gap:18px;margin-top:24px;}
+  .banner .b{flex:1;background:var(--accent-soft);border-radius:16px;padding:16px 20px;font-weight:800;font-size:clamp(15px,1.6vw,20px);}
+  .banner .b .em{font-size:26px;display:block;margin-bottom:6px;}
+
+  /* AI strip */
+  .ai-strip{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;}
+  .ai-strip .a{flex:1;min-width:150px;background:#fbfbfe;border:1px solid var(--line);border-radius:16px;
+    padding:16px;text-align:center;font-weight:700;font-size:14px;}
+  .ai-strip .a .em{font-size:30px;display:block;margin-bottom:8px;}
+
+  .panel{background:#fbfbfe;border:1px solid var(--line);border-radius:22px;padding:24px;height:100%;}
+  .panel h3{font-size:22px;margin-bottom:4px;}
+  .panel .badge{font-size:13px;font-weight:800;padding:4px 12px;border-radius:100px;display:inline-block;margin-bottom:16px;}
+  .badge.free{background:#eafaf0;color:#1f9d55;}
+  .badge.prem{background:var(--accent-soft);color:var(--accent);}
+
+  .popup{background:var(--ink);color:#fff;border-radius:16px;padding:16px 18px;font-weight:800;
+    display:flex;align-items:center;gap:12px;font-size:15px;box-shadow:var(--shadow);}
+  .popup .save{background:var(--accent);padding:6px 12px;border-radius:10px;white-space:nowrap;}
+
+  /* journey */
+  .journey{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin-top:20px;}
+  .journey::before{content:"";position:absolute;top:34px;left:5%;right:5%;height:3px;background:var(--line);z-index:0;}
+  .stop{position:relative;z-index:1;text-align:center;width:18%;}
+  .stop .dot{width:68px;height:68px;border-radius:50%;background:#fff;border:3px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px;}
+  .stop .lbl{font-weight:800;font-size:15px;}
+  .stop .note{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;}
+  .bubble{background:var(--accent);color:#fff;font-weight:800;font-size:12px;padding:5px 10px;border-radius:10px;display:inline-block;margin-top:8px;}
+
+  /* finance */
+  .cards3{display:flex;gap:18px;}
+  .rcard{flex:1;background:#fbfbfe;border:1px solid var(--line);border-radius:18px;padding:20px;}
+  .rcard .em{font-size:30px;}
+  .rcard .t{font-weight:800;margin:10px 0 4px;font-size:17px;}
+  .rcard .d{color:var(--muted);font-size:13px;line-height:1.5;}
+  .funnel{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:6px;}
+  .funnel .f{color:#fff;font-weight:800;text-align:center;padding:10px;border-radius:8px;font-size:13px;}
+  .f1{width:100%;background:#c9c9db;}
+  .f2{width:70%;background:#8a8ab0;}
+  .f3{width:45%;background:var(--accent);}
+  .bars{display:flex;align-items:flex-end;gap:22px;height:150px;margin-top:10px;}
+  .bar{flex:1;background:var(--accent);border-radius:10px 10px 0 0;position:relative;display:flex;justify-content:center;}
+  .bar span{position:absolute;top:-24px;font-weight:800;font-size:13px;color:var(--ink);}
+  .bar em{position:absolute;bottom:-26px;font-style:normal;font-size:12px;color:var(--muted);}
+
+  /* impact */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px;}
+  .tile{background:#fbfbfe;border:1px solid var(--line);border-radius:20px;padding:24px 20px;text-align:center;}
+  .tile .em{font-size:44px;}
+  .tile .t{font-weight:800;font-size:18px;margin:12px 0 6px;}
+  .tile .m{color:var(--accent);font-weight:800;font-size:14px;}
+
+  /* matrix */
+  .matrix-wrap{display:flex;gap:30px;align-items:center;margin-top:10px;}
+  .matrix{position:relative;width:min(52vh,520px);height:min(52vh,520px);
+    background:linear-gradient(#fbfbfe,#fbfbfe);border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);border-radius:4px;}
+  .matrix .qtr{position:absolute;top:0;right:0;width:50%;height:50%;background:var(--accent-soft);border-radius:0 4px 0 0;}
+  .axis-x{position:absolute;bottom:-34px;right:0;font-weight:800;font-size:14px;}
+  .axis-y{position:absolute;top:0;left:-30px;transform:rotate(-90deg);transform-origin:left;font-weight:800;font-size:14px;white-space:nowrap;}
+  .pt{position:absolute;transform:translate(-50%,50%);font-size:12px;font-weight:700;color:var(--muted);
+    background:#fff;border:1px solid var(--line);border-radius:100px;padding:4px 10px;white-space:nowrap;}
+  .pt.us{color:#fff;background:var(--accent);border-color:var(--accent);font-size:16px;font-weight:900;
+    padding:10px 16px;box-shadow:0 0 0 6px rgba(255,45,107,.2),0 0 26px rgba(255,45,107,.55);animation:pulse 1.8s infinite;}
+  @keyframes pulse{50%{box-shadow:0 0 0 12px rgba(255,45,107,.08),0 0 34px rgba(255,45,107,.7);}}
+
+  /* timeline */
+  .timeline{display:flex;justify-content:space-between;position:relative;margin:30px 0;}
+  .timeline::before{content:"";position:absolute;top:26px;left:4%;right:4%;height:3px;background:var(--accent);}
+  .mile{position:relative;text-align:center;width:22%;}
+  .mile .dot{width:54px;height:54px;border-radius:50%;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px;}
+  .mile .ph{font-weight:800;font-size:15px;}
+  .mile .ds{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.4;}
+
+  .tip{position:absolute;bottom:22px;left:6vw;right:6vw;color:var(--muted);font-size:12.5px;
+    border-top:1px dashed var(--line);padding-top:10px;}
+  .tip b{color:var(--accent);}
+
+  /* nav hint + progress */
+  #hint{position:fixed;bottom:16px;right:20px;background:var(--ink);color:#fff;font-size:12px;
+    padding:8px 14px;border-radius:100px;opacity:.82;z-index:50;transition:opacity .4s;}
+  #progress{position:fixed;top:0;left:0;height:4px;background:var(--accent);width:0;z-index:60;transition:width .25s;}
+  @media(max-width:820px){
+    .row,.cards3,.matrix-wrap{flex-direction:column;}
+    .tiles{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="hint">↑ ↓ ← → 切換投影片 · 滾動如常</div>
+
+<div id="scroller">
+
+  <!-- 0 · Title -->
+  <section class="slide center">
+    <div class="logo-xl">抵<span class="b">Buy</span></div>
+    <div class="tagline">搜羅優惠，慳到盡。</div>
+    <div class="names">
+      國際青少年創科教育大賽 2026<br>
+      主題：智慧城市 · 技術：人工智能<br>
+      隊員：S1 · S2 · S3 · S4
+    </div>
+    <svg class="skyline" viewBox="0 0 1440 130" preserveAspectRatio="none">
+      <g fill="#191933" opacity="0.10">
+        <rect x="40" y="60" width="60" height="70"/><rect x="120" y="30" width="46" height="100"/>
+        <rect x="185" y="75" width="54" height="55"/><rect x="255" y="45" width="40" height="85"/>
+        <rect x="320" y="20" width="34" height="110"/><rect x="380" y="65" width="70" height="65"/>
+        <rect x="470" y="40" width="44" height="90"/><rect x="540" y="70" width="50" height="60"/>
+        <rect x="610" y="15" width="38" height="115"/><rect x="670" y="55" width="60" height="75"/>
+        <rect x="750" y="35" width="42" height="95"/><rect x="810" y="72" width="56" height="58"/>
+        <rect x="885" y="25" width="36" height="105"/><rect x="945" y="60" width="64" height="70"/>
+        <rect x="1030" y="42" width="46" height="88"/><rect x="1100" y="68" width="52" height="62"/>
+        <rect x="1170" y="30" width="40" height="100"/><rect x="1230" y="58" width="66" height="72"/>
+        <rect x="1315" y="48" width="44" height="82"/><rect x="1380" y="70" width="50" height="60"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 1 · Introduction hook -->
+  <section class="slide center">
+    <span class="snum">01 / 引言</span>
+    <div class="logo-xl">抵<span class="b">Buy</span></div>
+    <h2 style="margin-top:18px;max-width:16ch;">身邊明明有優惠，<span class="accent">你卻不知道它存在？</span></h2>
+    <div class="tagline" style="margin-top:20px;">香港的 AI 慳錢管家 — 搜羅優惠，慳到盡。</div>
+  </section>
+
+  <!-- 2 · Problem -->
+  <section class="slide">
+    <span class="tag">抵<b>Buy</b></span><span class="snum">02 / 現時問題</span>
+    <span class="kicker">現時問題</span>
+    <h2>優惠到處都是，卻各自為政；網上購物，又多付了錢。</h2>
+    <div class="row" style="margin-top:26px;">
+      <div class="col">
+        <div class="chaos">
+          <span class="chip" style="top:24px;left:30px;">🍜 OpenRice</span>
+          <span class="chip" style="top:70px;right:40px;">🛒 MoneyBack</span>
+          <span class="chip" style="top:130px;left:60px;">💄 BloomMe</span>
+          <span class="chip" style="top:170px;right:60px;">📸 IG 專頁</span>
+          <span class="chip" style="top:220px;left:40px;">🎟️ 優惠碼</span>
+          <span class="chip" style="top:110px;left:50%;transform:translateX(-50%);">🏪 各店 App</span>
+        </div>
+        <p class="sub" style="text-align:center;margin-top:10px;">優惠散落各處 → 大部分人 <b class="accent">懶得去找</b></p>
+      </div>
+      <div class="col" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div class="phone" style="min-height:300px;">
+          <div class="p-title">🛒 購物車</div>
+          <div class="deal-card">無線耳機　　HK$680</div>
+          <div class="deal-card" style="border-color:var(--accent);color:var(--accent);font-weight:800;">😱 同款商品他處便宜四成！</div>
+          <div style="font-size:40px;text-align:center;margin-top:6px;">💸</div>
+        </div>
+      </div>
+    </div>
+    <div class="banner">
+      <div class="b"><span class="em">🔍</span>問題一：本地優惠找不到</div>
+      <div class="b"><span class="em">💸</span>問題二：網上購物多付了錢</div>
+    </div>
+  </section>
+
+  <!-- 3 · Solution -->
+  <section class="slide">
+    <span class="tag">抵<b>Buy</b></span><span class="snum">03 / 解決方案</span>
+    <span class="kicker">我們的解決方案</span>
+    <h2>一個 App，找到優惠，也確保你不會買貴。</h2>
+    <div class="row" style="margin-top:22px;">
+      <div class="col">
+        <div class="panel">
+          <span class="badge free">免費版</span>
+          <h3>優惠資訊流</h3>
+          <p class="sub" style="margin-top:6px;">AI 讀取全網優惠，按你的位置、學校、課堂空檔個人化推薦。一按即用。</p>
+          <div class="phone" style="min-height:230px;margin-top:16px;">
+            <div class="p-title">🎯 為你推薦</div>
+            <div class="deal-card"><span class="pct">-50%</span> 珍珠奶茶 · 50m 外</div>
+            <div class="deal-card"><span class="pct">-20%</span> 午餐套餐 · 學生專屬</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel">
+          <span class="badge prem">Premium 版 · 精髓</span>
+          <h3>AI 價格守護</h3>
+          <p class="sub" style="margin-top:6px;">網上購物時自動確認同一件商品在各平台的價格，計入運費與回贈，並預測「買定等」。</p>
+          <div class="popup" style="margin-top:20px;">
+            <span style="font-size:26px;">🛡️</span>
+            <div>發現同款商品更平！<div style="font-weight:600;font-size:12px;opacity:.8;margin-top:2px;">HKTVmall · 淘寶 · 實體店比價</div></div>
+            <span class="save">省 HK$120</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-strip">
+      <div class="a"><span class="em">🧠</span>NLP 讀取優惠</div>
+      <div class="a"><span class="em">🎯</span>個人化推薦</div>
+      <div class="a"><span class="em">🔎</span>SKU 跨平台格價</div>
+      <div class="a"><span class="em">📈</span>買／等預測</div>
+    </div>
+  </section>
+
+  <!-- 4 · Consumer journey -->
+  <section class="slide">
+    <span class="tag">抵<b>Buy</b></span><span class="snum">04 / 用戶旅程</span>
+    <span class="kicker">用戶旅程</span>
+    <h2>認識 Amy — 由發現到主動推薦。</h2>
+    <div class="journey">
+      <div class="stop"><div class="dot">👀</div><div class="lbl">發現</div><div class="note">朋友分享奶茶優惠</div></div>
+      <div class="stop"><div class="dot">🪪</div><div class="lbl">註冊</div><div class="note">驗證學生身份，解鎖專屬優惠</div></div>
+      <div class="stop"><div class="dot">☕</div><div class="lbl">日常使用</div><div class="note">課堂間一按用午餐優惠</div></div>
+      <div class="stop"><div class="dot">🛡️</div><div class="lbl">升級</div><div class="note">網購耳機收到提示<div class="bubble">他處省 HK$120</div></div></div>
+      <div class="stop"><div class="dot">📣</div><div class="lbl">推薦</div><div class="note">月結報告分享朋友<div class="bubble">本月省 HK$430</div></div></div>
+    </div>
+    <p class="sub" style="text-align:center;margin-top:20px;">一個有名有姓的真人，勝過抽象的「用戶」。</p>
+  </section>
+
+  <!-- 5 · Financial -->
+  <section class="slide">
+    <span class="tag">抵<b>Buy</b></span><span class="snum">05 / 財務計劃</span>
+    <span class="kicker">財務計劃</span>
+    <h2>三個收入來源 · 學生為切入點。</h2>
+    <div class="cards3" style="margin-top:20px;">
+      <div class="rcard"><div class="em">💰</div><div class="t">佣金（約 10%）</div><div class="d">按成效計，有成交才收費——商戶容易答應。</div></div>
+      <div class="rcard"><div class="em">⭐</div><div class="t">Premium 訂閱</div><div class="d">每月 HK$25–30，AI 價格守護。</div></div>
+      <div class="rcard"><div class="em">📊</div><div class="t">B2B 數據分析</div><div class="d">匿名需求數據，回售予商戶。</div></div>
+    </div>
+    <div class="row" style="margin-top:26px;align-items:flex-end;">
+      <div class="col">
+        <p class="sub" style="margin-bottom:8px;"><b>TAM · SAM · SOM</b></p>
+        <div class="funnel">
+          <div class="f f1">TAM · 香港零售</div>
+          <div class="f f2">SAM · 數碼優惠搜尋者</div>
+          <div class="f f3">SOM · 60 萬+ 學生</div>
+        </div>
+        <p class="sub" style="font-size:12px;margin-top:8px;">⚠️ 數字為估算，決賽前以統計處／Statista 核實。</p>
+      </div>
+      <div class="col">
+        <p class="sub" style="margin-bottom:8px;"><b>三年用戶增長</b></p>
+        <div class="bars">
+          <div class="bar" style="height:22%;"><span>2 萬</span><em>Y1</em></div>
+          <div class="bar" style="height:55%;"><span>12 萬</span><em>Y2</em></div>
+          <div class="bar" style="height:100%;"><span>40 萬</span><em>Y3</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Impact -->
+  <section class="slide">
+    <span class="tag">抵<b>Buy</b></span><span class="snum">06 / 預期影響</span>
+    <span class="kicker">預期影響 · 智慧城市</span>
+    <h2>不止省下幾塊錢。</h2>
+    <div class="tiles">
+      <div class="tile"><div class="em">🧑‍🎓</div><div class="t">消費者省錢</div><div class="m">每年省 HK$X／人</div></div>
+      <div class="tile"><div class="em">🏪</div><div class="t">小商戶得益</div><div class="m">與大集團公平競爭</div></div>
+      <div class="tile"><div class="em">🏙️</div><div class="t">更智慧的城市</div><div class="m">商業更透明高效</div></div>
+      <div class="tile"><div class="em">🌱</div><div class="t">更少浪費</div><div class="m">推介本地／二手</div></div>
+    </div>
+    <p class="sub" style="text-align:center;margin-top:24px;">緊扣比賽主題 — <b class="accent">智慧城市</b>。</p>
+  </section>
+
+  <!-- 7 · Competitor matrix -->
+  <section class="slide">
+    <span class="tag">抵<b>Buy</b></span><span class="snum">07 / 競爭對手分析</span>
+    <span class="kicker">競爭對手分析</span>
+    <h2>對手都只做了一半 — 我們獨佔右上角。</h2>
+    <div class="matrix-wrap">
+      <div class="matrix">
+        <div class="qtr"></div>
+        <span class="axis-x">本地優惠發現 →</span>
+        <span class="axis-y">價格智能 ↑</span>
+        <span class="pt" style="left:22%;bottom:20%;">OpenRice</span>
+        <span class="pt" style="left:30%;bottom:32%;">MoneyBack</span>
+        <span class="pt" style="left:18%;bottom:60%;">Honey</span>
+        <span class="pt" style="left:26%;bottom:72%;">Cheaperly</span>
+        <span class="pt" style="left:40%;bottom:12%;">IG 專頁</span>
+        <span class="pt us" style="left:80%;bottom:82%;">抵Buy</span>
+      </div>
+      <div class="col">
+        <p class="sub" style="max-width:34ch;">
+          OpenRice：只限飲食。MoneyBack：只限一個集團。回贈網站：沒有發現與即時格價。
+          Honey：優惠碼優先，2025 年失去用戶信任。AI 格價工具：未本地化，不懂香港與淘寶。
+        </p>
+        <p style="font-weight:800;font-size:20px;margin-top:18px;">
+          <span class="accent">抵Buy</span> 是唯一結合<br>本地學生優惠發現 + AI 跨平台格價 的產品。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · Future + conclusion -->
+  <section class="slide">
+    <span class="snum">08 / 未來發展 + 總結</span>
+    <span class="kicker">未來發展</span>
+    <div class="timeline">
+      <div class="mile"><div class="dot">🎓</div><div class="ph">短期</div><div class="ds">數間大學校園推出</div></div>
+      <div class="mile"><div class="dot">🇭🇰</div><div class="ph">中期</div><div class="ds">擴展全港 + Premium 價格守護</div></div>
+      <div class="mile"><div class="dot">📊</div><div class="ph">長期</div><div class="ds">B2B 數據平台 + IoT 智慧零售</div></div>
+      <div class="mile"><div class="dot">🌏</div><div class="ph">區域</div><div class="ds">台北 · 新加坡</div></div>
+    </div>
+    <div class="center" style="margin-top:20px;">
+      <div class="logo-xl" style="font-size:clamp(48px,9vw,110px);">抵<span class="b">Buy</span></div>
+      <div class="tagline">搜羅優惠，慳到盡。</div>
+      <p class="sub">香港消費者兩種吃虧 — 找不到優惠、多付了錢。抵Buy 一次解決。多謝各位。</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const scroller = document.getElementById('scroller');
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const progress = document.getElementById('progress');
+  const hint     = document.getElementById('hint');
+
+  const currentIndex = () => Math.round(scroller.scrollTop / window.innerHeight);
+
+  function goTo(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    // programmatic smooth scroll = the "transition"; native wheel stays instant
+    scroller.scrollTo({ top: i * window.innerHeight, behavior: 'smooth' });
+  }
+
+  const NEXT = ['ArrowDown','ArrowRight','PageDown',' ','Spacebar'];
+  const PREV = ['ArrowUp','ArrowLeft','PageUp'];
+
+  window.addEventListener('keydown', (e) => {
+    if (NEXT.includes(e.key)) { e.preventDefault(); goTo(currentIndex() + 1); }
+    else if (PREV.includes(e.key)) { e.preventDefault(); goTo(currentIndex() - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End')  { e.preventDefault(); goTo(slides.length - 1); }
+  });
+
+  // progress bar follows any scroll (wheel or arrows)
+  let hideTimer;
+  scroller.addEventListener('scroll', () => {
+    const max = scroller.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? scroller.scrollTop / max * 100 : 0) + '%';
+    hint.style.opacity = 0;
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => { hint.style.opacity = .82; }, 1200);
+  }, { passive: true });
+</script>
+</body>
+</html>

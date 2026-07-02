@@ -1,0 +1,184 @@
+{
+  "discounts": [
+    {
+      "id": "d01",
+      "restaurantId": "r01",
+      "type": "percent",
+      "label": "20% off",
+      "value": 20,
+      "description": "Dine-in after 6pm",
+      "expires": "2026-08-31"
+    },
+    {
+      "id": "d02",
+      "restaurantId": "r02",
+      "type": "fixed",
+      "label": "$20 off",
+      "value": 20,
+      "description": "Minimum spend $150",
+      "expires": "2026-08-15"
+    },
+    {
+      "id": "d03",
+      "restaurantId": "r03",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "On selected pasta dishes",
+      "expires": "2026-09-10"
+    },
+    {
+      "id": "d04",
+      "restaurantId": "r04",
+      "type": "percent",
+      "label": "15% off",
+      "value": 15,
+      "description": "Afternoon tea set",
+      "expires": "2026-08-20"
+    },
+    {
+      "id": "d05",
+      "restaurantId": "r05",
+      "type": "fixed",
+      "label": "$18 off",
+      "value": 18,
+      "description": "Grill combo for two",
+      "expires": "2026-08-25"
+    },
+    {
+      "id": "d06",
+      "restaurantId": "r06",
+      "type": "percent",
+      "label": "10% off",
+      "value": 10,
+      "description": "Takeaway orders",
+      "expires": "2026-09-05"
+    },
+    {
+      "id": "d07",
+      "restaurantId": "r07",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "House wine by the glass",
+      "expires": "2026-08-18"
+    },
+    {
+      "id": "d08",
+      "restaurantId": "r08",
+      "type": "percent",
+      "label": "20% off",
+      "value": 20,
+      "description": "Omakase dinner",
+      "expires": "2026-09-30"
+    },
+    {
+      "id": "d09",
+      "restaurantId": "r09",
+      "type": "fixed",
+      "label": "$20 off",
+      "value": 20,
+      "description": "Ramen set meal",
+      "expires": "2026-08-22"
+    },
+    {
+      "id": "d10",
+      "restaurantId": "r10",
+      "type": "percent",
+      "label": "12% off",
+      "value": 12,
+      "description": "Street snacks after 8pm",
+      "expires": "2026-09-12"
+    },
+    {
+      "id": "d11",
+      "restaurantId": "r11",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "Matcha desserts",
+      "expires": "2026-08-28"
+    },
+    {
+      "id": "d12",
+      "restaurantId": "r12",
+      "type": "percent",
+      "label": "18% off",
+      "value": 18,
+      "description": "Lunch curry rice",
+      "expires": "2026-09-08"
+    },
+    {
+      "id": "d13",
+      "restaurantId": "r13",
+      "type": "fixed",
+      "label": "$15 off",
+      "value": 15,
+      "description": "Skewers and drinks",
+      "expires": "2026-08-14"
+    },
+    {
+      "id": "d14",
+      "restaurantId": "r14",
+      "type": "percent",
+      "label": "10% off",
+      "value": 10,
+      "description": "Tempura set",
+      "expires": "2026-09-03"
+    },
+    {
+      "id": "d15",
+      "restaurantId": "r15",
+      "type": "percent",
+      "label": "20% off",
+      "value": 20,
+      "description": "Taco Tuesday special",
+      "expires": "2026-08-29"
+    },
+    {
+      "id": "d16",
+      "restaurantId": "r16",
+      "type": "fixed",
+      "label": "$20 off",
+      "value": 20,
+      "description": "Family nachos platter",
+      "expires": "2026-09-01"
+    },
+    {
+      "id": "d17",
+      "restaurantId": "r17",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "Fresh guacamole bowls",
+      "expires": "2026-08-17"
+    },
+    {
+      "id": "d18",
+      "restaurantId": "r18",
+      "type": "percent",
+      "label": "15% off",
+      "value": 15,
+      "description": "Sizzling fajitas",
+      "expires": "2026-09-15"
+    },
+    {
+      "id": "d19",
+      "restaurantId": "r19",
+      "type": "fixed",
+      "label": "$12 off",
+      "value": 12,
+      "description": "Churros and chocolate",
+      "expires": "2026-08-21"
+    },
+    {
+      "id": "d20",
+      "restaurantId": "r20",
+      "type": "percent",
+      "label": "10% off",
+      "value": 10,
+      "description": "Enchilada combo",
+      "expires": "2026-09-07"
+    }
+  ]
+}

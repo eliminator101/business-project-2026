@@ -1,0 +1,184 @@
+{
+  "restaurants": [
+    {
+      "id": "r01",
+      "name": "Mamma Mia Pizzeria",
+      "style": "Italian",
+      "tags": ["pizza", "pasta", "tiramisu", "italian"],
+      "suggested": true,
+      "rating": 4.7,
+      "location": "Wan Chai"
+    },
+    {
+      "id": "r02",
+      "name": "Bella Roma Trattoria",
+      "style": "Italian",
+      "tags": ["lasagna", "risotto", "italian"],
+      "suggested": false,
+      "rating": 4.4,
+      "location": "Central"
+    },
+    {
+      "id": "r03",
+      "name": "Pasta Paradise",
+      "style": "Italian",
+      "tags": ["spaghetti", "carbonara", "italian"],
+      "suggested": false,
+      "rating": 4.2,
+      "location": "Tsim Sha Tsui"
+    },
+    {
+      "id": "r04",
+      "name": "Venetian Gelato & Cafe",
+      "style": "Italian",
+      "tags": ["gelato", "espresso", "italian"],
+      "suggested": false,
+      "rating": 4.5,
+      "location": "Causeway Bay"
+    },
+    {
+      "id": "r05",
+      "name": "Tuscan Grill House",
+      "style": "Italian",
+      "tags": ["steak", "grill", "italian"],
+      "suggested": false,
+      "rating": 4.3,
+      "location": "Mong Kok"
+    },
+    {
+      "id": "r06",
+      "name": "Napoli Street Pizza",
+      "style": "Italian",
+      "tags": ["pizza", "calzone", "italian"],
+      "suggested": false,
+      "rating": 4.1,
+      "location": "Kwun Tong"
+    },
+    {
+      "id": "r07",
+      "name": "Little Venice Bistro",
+      "style": "Italian",
+      "tags": ["seafood", "italian", "wine"],
+      "suggested": false,
+      "rating": 4.6,
+      "location": "Sheung Wan"
+    },
+    {
+      "id": "r08",
+      "name": "Sakura Sushi Bar",
+      "style": "Japanese",
+      "tags": ["sushi", "sashimi", "japanese"],
+      "suggested": true,
+      "rating": 4.8,
+      "location": "Causeway Bay"
+    },
+    {
+      "id": "r09",
+      "name": "Tokyo Ramen House",
+      "style": "Japanese",
+      "tags": ["ramen", "udon", "japanese"],
+      "suggested": false,
+      "rating": 4.5,
+      "location": "Mong Kok"
+    },
+    {
+      "id": "r10",
+      "name": "Osaka Takoyaki Corner",
+      "style": "Japanese",
+      "tags": ["takoyaki", "okonomiyaki", "japanese"],
+      "suggested": false,
+      "rating": 4.2,
+      "location": "Tsim Sha Tsui"
+    },
+    {
+      "id": "r11",
+      "name": "Kyoto Matcha Cafe",
+      "style": "Japanese",
+      "tags": ["matcha", "dessert", "japanese"],
+      "suggested": false,
+      "rating": 4.6,
+      "location": "Central"
+    },
+    {
+      "id": "r12",
+      "name": "Hokkaido Curry Kitchen",
+      "style": "Japanese",
+      "tags": ["curry", "rice", "japanese"],
+      "suggested": false,
+      "rating": 4.3,
+      "location": "Wan Chai"
+    },
+    {
+      "id": "r13",
+      "name": "Izakaya Tanuki",
+      "style": "Japanese",
+      "tags": ["yakitori", "sake", "japanese"],
+      "suggested": false,
+      "rating": 4.4,
+      "location": "Sheung Wan"
+    },
+    {
+      "id": "r14",
+      "name": "Fuji Tempura House",
+      "style": "Japanese",
+      "tags": ["tempura", "soba", "japanese"],
+      "suggested": false,
+      "rating": 4.1,
+      "location": "Kwun Tong"
+    },
+    {
+      "id": "r15",
+      "name": "Fiesta Tacos Cantina",
+      "style": "Mexican",
+      "tags": ["tacos", "burrito", "mexican"],
+      "suggested": true,
+      "rating": 4.6,
+      "location": "Central"
+    },
+    {
+      "id": "r16",
+      "name": "Casa de Quesadilla",
+      "style": "Mexican",
+      "tags": ["quesadilla", "nachos", "mexican"],
+      "suggested": false,
+      "rating": 4.3,
+      "location": "Tsim Sha Tsui"
+    },
+    {
+      "id": "r17",
+      "name": "Guacamole Garden",
+      "style": "Mexican",
+      "tags": ["guacamole", "salad", "mexican"],
+      "suggested": false,
+      "rating": 4.5,
+      "location": "Wan Chai"
+    },
+    {
+      "id": "r18",
+      "name": "El Mariachi Grill",
+      "style": "Mexican",
+      "tags": ["fajitas", "steak", "mexican"],
+      "suggested": false,
+      "rating": 4.2,
+      "location": "Mong Kok"
+    },
+    {
+      "id": "r19",
+      "name": "Churros Locos",
+      "style": "Mexican",
+      "tags": ["churros", "dessert", "mexican"],
+      "suggested": false,
+      "rating": 4.4,
+      "location": "Causeway Bay"
+    },
+    {
+      "id": "r20",
+      "name": "Sombrero Enchilada Bar",
+      "style": "Mexican",
+      "tags": ["enchilada", "tamales", "mexican"],
+      "suggested": false,
+      "rating": 4.1,
+      "location": "Sheung Wan"
+    }
+  ]
+}

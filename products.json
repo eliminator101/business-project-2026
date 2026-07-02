@@ -1,0 +1,164 @@
+{
+  "products": [
+    {
+      "id": "p01",
+      "name": "Soft-Bristle Toothbrush",
+      "nameZh": "軟毛牙刷",
+      "price": 28,
+      "shipping": 12,
+      "eta": "2-3 days",
+      "image": "🪥",
+      "warehouse": "Shenzhen Warehouse",
+      "address": "Flat B, 8/F, Block 2, Mei Foo Sun Chuen, Kowloon",
+      "cheaper": {
+        "source": "Pinduoduo",
+        "price": 19,
+        "url": "https://www.pinduoduo.com"
+      }
+    },
+    {
+      "id": "p02",
+      "name": "Cotton Chino Trousers",
+      "nameZh": "棉質休閒長褲",
+      "price": 199,
+      "shipping": 25,
+      "eta": "3-5 days",
+      "image": "👖",
+      "warehouse": "Dongguan Warehouse",
+      "address": "Room 1203, Tower 5, Laguna City, Kwun Tong",
+      "cheaper": {
+        "source": "Taobao",
+        "price": 145,
+        "url": "https://www.taobao.com"
+      }
+    },
+    {
+      "id": "p03",
+      "name": "Silk Protein Shampoo",
+      "nameZh": "蠶絲蛋白洗髮水",
+      "price": 68,
+      "shipping": 15,
+      "eta": "2-4 days",
+      "image": "🧴",
+      "warehouse": "Guangzhou Warehouse",
+      "address": "Flat C, 12/F, Park Central, Tseung Kwan O",
+      "cheaper": {
+        "source": "Pinduoduo",
+        "price": 49,
+        "url": "https://www.pinduoduo.com"
+      }
+    },
+    {
+      "id": "p04",
+      "name": "Hardcover Notebook",
+      "nameZh": "精裝筆記簿",
+      "price": 45,
+      "shipping": 10,
+      "eta": "2-3 days",
+      "image": "📓",
+      "warehouse": "Shenzhen Warehouse",
+      "address": "Unit 8, 15/F, Island Harbourview, Tai Kok Tsui",
+      "cheaper": {
+        "source": "Taobao",
+        "price": 29,
+        "url": "https://www.taobao.com"
+      }
+    },
+    {
+      "id": "p05",
+      "name": "Laundry Detergent 2L",
+      "nameZh": "洗衣液 2公升",
+      "price": 55,
+      "shipping": 18,
+      "eta": "3-4 days",
+      "image": "🧺",
+      "warehouse": "Dongguan Warehouse",
+      "address": "Flat A, 6/F, Belcher's Garden, Kennedy Town",
+      "cheaper": {
+        "source": "Pinduoduo",
+        "price": 38,
+        "url": "https://www.pinduoduo.com"
+      }
+    },
+    {
+      "id": "p06",
+      "name": "Mini Rice Cooker 1L",
+      "nameZh": "迷你電飯煲 1公升",
+      "price": 299,
+      "shipping": 35,
+      "eta": "4-6 days",
+      "image": "🍚",
+      "warehouse": "Foshan Warehouse",
+      "address": "Room 502, Block 3, City One, Sha Tin",
+      "cheaper": {
+        "source": "Taobao",
+        "price": 218,
+        "url": "https://www.taobao.com"
+      }
+    },
+    {
+      "id": "p07",
+      "name": "Fast Phone Charger 20W",
+      "nameZh": "20W 快充充電器",
+      "price": 89,
+      "shipping": 12,
+      "eta": "2-3 days",
+      "image": "🔌",
+      "warehouse": "Shenzhen Warehouse",
+      "address": "Flat D, 9/F, South Horizons, Ap Lei Chau",
+      "cheaper": {
+        "source": "Pinduoduo",
+        "price": 59,
+        "url": "https://www.pinduoduo.com"
+      }
+    },
+    {
+      "id": "p08",
+      "name": "Insulated Water Bottle",
+      "nameZh": "保溫水樽",
+      "price": 128,
+      "shipping": 15,
+      "eta": "3-4 days",
+      "image": "🥤",
+      "warehouse": "Guangzhou Warehouse",
+      "address": "Flat 1802, Tower 1, Metro Town, Tiu Keng Leng",
+      "cheaper": {
+        "source": "Taobao",
+        "price": 89,
+        "url": "https://www.taobao.com"
+      }
+    },
+    {
+      "id": "p09",
+      "name": "Compact Folding Umbrella",
+      "nameZh": "摺疊雨傘",
+      "price": 78,
+      "shipping": 12,
+      "eta": "2-3 days",
+      "image": "☂️",
+      "warehouse": "Shenzhen Warehouse",
+      "address": "Room 701, 7/F, Illumination Terrace, Causeway Bay",
+      "cheaper": {
+        "source": "Pinduoduo",
+        "price": 45,
+        "url": "https://www.pinduoduo.com"
+      }
+    },
+    {
+      "id": "p10",
+      "name": "Crew Socks 5-Pack",
+      "nameZh": "短襪五對裝",
+      "price": 58,
+      "shipping": 10,
+      "eta": "2-3 days",
+      "image": "🧦",
+      "warehouse": "Dongguan Warehouse",
+      "address": "Flat 1105, 11/F, Coastal Skyline, Tung Chung",
+      "cheaper": {
+        "source": "Taobao",
+        "price": 35,
+        "url": "https://www.taobao.com"
+      }
+    }
+  ]
+}

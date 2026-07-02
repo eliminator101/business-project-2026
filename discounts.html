@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抵Buy — 餐廳優惠搜尋 Restaurant Deals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#fffdf8;
+    --ink:#161221;
+    --magenta:#ff1f6b;
+    --lemon:#ffe14d;
+    --cobalt:#2b4bff;
+    --edge:5px;
+    --shadow:6px 6px 0 var(--ink);
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{min-height:100%}
+  body{
+    font-family:"Poppins","Noto Sans TC",system-ui,sans-serif;
+    background:var(--white);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+
+  .stage{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .stage::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:radial-gradient(var(--ink) 1.4px, transparent 1.4px);
+    background-size:26px 26px;
+    opacity:.06;
+    z-index:0;
+  }
+  .blob{
+    position:absolute;border-radius:50%;z-index:0;filter:blur(2px);opacity:.9;
+  }
+  .blob.a{width:150px;height:150px;background:var(--lemon);top:-40px;left:-30px}
+  .blob.b{width:90px;height:90px;background:var(--cobalt);bottom:12%;left:-40px;opacity:.85}
+  .blob.c{width:60px;height:60px;background:var(--magenta);top:22%;right:8%}
+  .dash{position:absolute;width:34px;height:9px;border-radius:9px;z-index:0}
+  .dash.d1{background:var(--cobalt);top:14%;left:18%;transform:rotate(-18deg)}
+  .dash.d2{background:var(--magenta);top:8%;right:22%;transform:rotate(24deg)}
+  .dash.d3{background:var(--lemon);bottom:26%;right:12%;transform:rotate(-30deg);box-shadow:0 0 0 3px var(--ink)}
+  .star-lil{position:absolute;font-family:"Fredoka";font-weight:700;z-index:0;color:var(--cobalt);font-size:26px}
+  .star-lil.s1{top:30%;left:9%;color:var(--magenta);transform:rotate(-12deg)}
+  .star-lil.s2{bottom:30%;left:44%;color:var(--cobalt);transform:rotate(15deg)}
+
+  .topbar{
+    position:relative;z-index:5;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;
+    padding:22px clamp(20px,5vw,64px) 0;
+  }
+  .brand-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--magenta);color:#fff;
+    font-family:"Fredoka","Noto Sans TC";font-weight:700;
+    font-size:clamp(20px,3vw,28px);letter-spacing:.02em;
+    padding:10px 18px;border-radius:40px;
+    border:var(--edge) solid var(--ink);
+    box-shadow:var(--shadow);
+    transform:rotate(-1.2deg);
+  }
+  .brand-chip span{color:var(--lemon)}
+  .theme-chip{
+    font-family:"Noto Sans TC";font-weight:700;
+    font-size:clamp(12px,1.5vw,15px);
+    background:var(--lemon);color:var(--ink);
+    border:var(--edge) solid var(--ink);
+    padding:7px 15px;border-radius:12px;
+    transform:rotate(1.4deg);
+    box-shadow:4px 4px 0 var(--ink);
+  }
+
+  .container{
+    position:relative;z-index:5;flex:1;
+    padding:clamp(18px,3vh,40px) clamp(20px,5vw,64px);
+  }
+
+  .search-card{
+    background:#fff;
+    border:var(--edge) solid var(--ink);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:clamp(20px,3vw,32px);
+    max-width:800px;
+    margin:0 auto 28px;
+    transform:rotate(-.5deg);
+  }
+  .search-card h1{
+    font-family:"Fredoka","Noto Sans TC";
+    font-size:clamp(28px,5vw,44px);
+    font-weight:700;
+    margin-bottom:6px;
+    line-height:1.05;
+  }
+  .search-card h1 span{
+    color:var(--magenta);
+  }
+  .search-card .subtitle{
+    font-family:"Noto Sans TC";font-weight:700;
+    font-size:clamp(15px,2vw,20px);
+    color:var(--cobalt);
+    margin-bottom:18px;
+  }
+  .search-wrap{
+    position:relative;
+  }
+  .search-wrap input{
+    width:100%;
+    font-family:"Noto Sans TC","Poppins";font-weight:700;
+    font-size:clamp(16px,2vw,20px);
+    padding:16px 22px 16px 54px;
+    border:var(--edge) solid var(--ink);
+    border-radius:40px;
+    background:var(--white);
+    color:var(--ink);
+    box-shadow:4px 4px 0 var(--cobalt);
+    outline:none;
+  }
+  .search-wrap input:focus-visible{
+    outline:4px solid var(--cobalt);outline-offset:3px;
+  }
+  .search-wrap::before{
+    content:"🔍";
+    position:absolute;left:20px;top:50%;transform:translateY(-50%);
+    font-size:22px;
+  }
+  .stats{
+    margin-top:14px;
+    font-family:"Noto Sans TC";font-weight:700;
+    font-size:15px;
+    color:var(--ink);
+    display:flex;gap:12px;flex-wrap:wrap;
+  }
+  .stats .pill{
+    background:var(--lemon);border:2px solid var(--ink);border-radius:20px;
+    padding:3px 10px;
+  }
+
+  .results-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:24px;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  .restaurant-card{
+    position:relative;
+    background:var(--white);
+    border:var(--edge) solid var(--ink);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px;
+    transform:rotate(-1deg);
+    transition:transform .15s ease;
+  }
+  .restaurant-card:nth-child(even){transform:rotate(1deg)}
+  .restaurant-card:hover{transform:scale(1.02) rotate(0deg);z-index:2}
+  .restaurant-card.suggested{
+    background:var(--lemon);
+    transform:rotate(-2deg);
+  }
+  .restaurant-card.suggested:nth-child(even){transform:rotate(2deg)}
+  .restaurant-card.top-pick{
+    border-color:var(--magenta);
+    box-shadow:8px 8px 0 var(--magenta);
+  }
+
+  .style-tag{
+    display:inline-block;
+    font-family:"Poppins";font-weight:700;
+    font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+    background:var(--cobalt);color:#fff;
+    padding:4px 10px;border-radius:20px;
+    border:2px solid var(--ink);
+    margin-bottom:10px;
+  }
+  .restaurant-card h3{
+    font-family:"Noto Sans TC","Poppins";font-weight:900;
+    font-size:clamp(18px,2.5vw,22px);
+    margin-bottom:8px;
+    line-height:1.2;
+  }
+  .discount-sticker{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:"Fredoka","Noto Sans TC";font-weight:700;
+    font-size:clamp(18px,2.5vw,24px);
+    background:var(--magenta);color:#fff;
+    padding:6px 14px;border-radius:14px;
+    border:var(--edge) solid var(--ink);
+    transform:rotate(-2deg);
+    margin-bottom:12px;
+  }
+  .discount-sticker.bogo{background:var(--cobalt)}
+  .discount-sticker.fixed{background:var(--ink)}
+  .meta{
+    font-family:"Poppins","Noto Sans TC";font-weight:600;
+    font-size:14px;
+    color:var(--ink);
+    opacity:.85;
+    margin-bottom:10px;
+  }
+  .suggested-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:"Noto Sans TC";font-weight:900;
+    font-size:13px;
+    background:#fff;
+    border:2px solid var(--ink);border-radius:20px;
+    padding:4px 10px;
+  }
+  .peel{
+    position:absolute;bottom:-12px;left:-10px;
+    background:var(--lemon);
+    border:var(--edge) solid var(--ink);border-radius:12px;
+    font-family:"Noto Sans TC";font-weight:900;
+    font-size:12px;
+    padding:6px 10px;transform:rotate(-6deg);
+    box-shadow:3px 3px 0 var(--ink);
+  }
+  .top-badge{
+    position:absolute;top:-12px;right:-10px;
+    background:var(--magenta);color:#fff;
+    border:var(--edge) solid var(--ink);border-radius:12px;
+    font-family:"Noto Sans TC";font-weight:900;
+    font-size:12px;
+    padding:6px 10px;transform:rotate(6deg);
+    box-shadow:3px 3px 0 var(--ink);
+  }
+
+  .empty-state{
+    grid-column:1 / -1;
+    text-align:center;
+    max-width:500px;
+    margin:40px auto;
+    background:#fff;
+    border:var(--edge) solid var(--ink);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:32px;
+  }
+  .empty-state h2{
+    font-family:"Fredoka","Noto Sans TC";
+    font-size:28px;margin-bottom:8px;
+  }
+  .empty-state p{
+    font-family:"Noto Sans TC";font-weight:700;
+    color:var(--cobalt);
+  }
+
+  .footer{
+    position:relative;z-index:5;
+    text-align:center;
+    padding:24px clamp(20px,5vw,64px);
+    font-family:"Noto Sans TC";font-weight:700;
+    font-size:13px;
+    color:var(--ink);
+    opacity:.7;
+  }
+
+  @media (max-width:640px){
+    .topbar{justify-content:center;text-align:center}
+    .search-card{transform:none}
+  }
+  :focus-visible{outline:4px solid var(--cobalt);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <span class="blob a"></span><span class="blob b"></span><span class="blob c"></span>
+  <span class="dash d1"></span><span class="dash d2"></span><span class="dash d3"></span>
+  <span class="star-lil s1">✦</span><span class="star-lil s2">✦</span>
+
+  <header class="topbar">
+    <div class="brand-chip">抵<span>Buy</span></div>
+    <span class="theme-chip">餐廳優惠 · Restaurant Deals</span>
+  </header>
+
+  <main class="container">
+    <section class="search-card">
+      <h1>搜尋餐廳優惠 <span>Find Deals</span></h1>
+      <p class="subtitle">輸入菜式或餐廳名稱 · Try Italian, Sushi, Tacos…</p>
+      <div class="search-wrap">
+        <input type="search" id="searchInput" placeholder="試試 Italian、Sushi、Tacos…" aria-label="搜尋餐廳或菜式">
+      </div>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section id="results" class="results-grid" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer">
+    抵Buy — 幫你格清全網價 · Compare prices, save money
+  </footer>
+</div>
+
+<script type="application/json" id="restaurants-data">
+{
+  "restaurants": [
+    {
+      "id": "r01",
+      "name": "Mamma Mia Pizzeria",
+      "style": "Italian",
+      "tags": ["pizza", "pasta", "tiramisu", "italian"],
+      "suggested": true,
+      "rating": 4.7,
+      "location": "Wan Chai"
+    },
+    {
+      "id": "r02",
+      "name": "Bella Roma Trattoria",
+      "style": "Italian",
+      "tags": ["lasagna", "risotto", "italian"],
+      "suggested": false,
+      "rating": 4.4,
+      "location": "Central"
+    },
+    {
+      "id": "r03",
+      "name": "Pasta Paradise",
+      "style": "Italian",
+      "tags": ["spaghetti", "carbonara", "italian"],
+      "suggested": false,
+      "rating": 4.2,
+      "location": "Tsim Sha Tsui"
+    },
+    {
+      "id": "r04",
+      "name": "Venetian Gelato & Cafe",
+      "style": "Italian",
+      "tags": ["gelato", "espresso", "italian"],
+      "suggested": false,
+      "rating": 4.5,
+      "location": "Causeway Bay"
+    },
+    {
+      "id": "r05",
+      "name": "Tuscan Grill House",
+      "style": "Italian",
+      "tags": ["steak", "grill", "italian"],
+      "suggested": false,
+      "rating": 4.3,
+      "location": "Mong Kok"
+    },
+    {
+      "id": "r06",
+      "name": "Napoli Street Pizza",
+      "style": "Italian",
+      "tags": ["pizza", "calzone", "italian"],
+      "suggested": false,
+      "rating": 4.1,
+      "location": "Kwun Tong"
+    },
+    {
+      "id": "r07",
+      "name": "Little Venice Bistro",
+      "style": "Italian",
+      "tags": ["seafood", "italian", "wine"],
+      "suggested": false,
+      "rating": 4.6,
+      "location": "Sheung Wan"
+    },
+    {
+      "id": "r08",
+      "name": "Sakura Sushi Bar",
+      "style": "Japanese",
+      "tags": ["sushi", "sashimi", "japanese"],
+      "suggested": true,
+      "rating": 4.8,
+      "location": "Causeway Bay"
+    },
+    {
+      "id": "r09",
+      "name": "Tokyo Ramen House",
+      "style": "Japanese",
+      "tags": ["ramen", "udon", "japanese"],
+      "suggested": false,
+      "rating": 4.5,
+      "location": "Mong Kok"
+    },
+    {
+      "id": "r10",
+      "name": "Osaka Takoyaki Corner",
+      "style": "Japanese",
+      "tags": ["takoyaki", "okonomiyaki", "japanese"],
+      "suggested": false,
+      "rating": 4.2,
+      "location": "Tsim Sha Tsui"
+    },
+    {
+      "id": "r11",
+      "name": "Kyoto Matcha Cafe",
+      "style": "Japanese",
+      "tags": ["matcha", "dessert", "japanese"],
+      "suggested": false,
+      "rating": 4.6,
+      "location": "Central"
+    },
+    {
+      "id": "r12",
+      "name": "Hokkaido Curry Kitchen",
+      "style": "Japanese",
+      "tags": ["curry", "rice", "japanese"],
+      "suggested": false,
+      "rating": 4.3,
+      "location": "Wan Chai"
+    },
+    {
+      "id": "r13",
+      "name": "Izakaya Tanuki",
+      "style": "Japanese",
+      "tags": ["yakitori", "sake", "japanese"],
+      "suggested": false,
+      "rating": 4.4,
+      "location": "Sheung Wan"
+    },
+    {
+      "id": "r14",
+      "name": "Fuji Tempura House",
+      "style": "Japanese",
+      "tags": ["tempura", "soba", "japanese"],
+      "suggested": false,
+      "rating": 4.1,
+      "location": "Kwun Tong"
+    },
+    {
+      "id": "r15",
+      "name": "Fiesta Tacos Cantina",
+      "style": "Mexican",
+      "tags": ["tacos", "burrito", "mexican"],
+      "suggested": true,
+      "rating": 4.6,
+      "location": "Central"
+    },
+    {
+      "id": "r16",
+      "name": "Casa de Quesadilla",
+      "style": "Mexican",
+      "tags": ["quesadilla", "nachos", "mexican"],
+      "suggested": false,
+      "rating": 4.3,
+      "location": "Tsim Sha Tsui"
+    },
+    {
+      "id": "r17",
+      "name": "Guacamole Garden",
+      "style": "Mexican",
+      "tags": ["guacamole", "salad", "mexican"],
+      "suggested": false,
+      "rating": 4.5,
+      "location": "Wan Chai"
+    },
+    {
+      "id": "r18",
+      "name": "El Mariachi Grill",
+      "style": "Mexican",
+      "tags": ["fajitas", "steak", "mexican"],
+      "suggested": false,
+      "rating": 4.2,
+      "location": "Mong Kok"
+    },
+    {
+      "id": "r19",
+      "name": "Churros Locos",
+      "style": "Mexican",
+      "tags": ["churros", "dessert", "mexican"],
+      "suggested": false,
+      "rating": 4.4,
+      "location": "Causeway Bay"
+    },
+    {
+      "id": "r20",
+      "name": "Sombrero Enchilada Bar",
+      "style": "Mexican",
+      "tags": ["enchilada", "tamales", "mexican"],
+      "suggested": false,
+      "rating": 4.1,
+      "location": "Sheung Wan"
+    }
+  ]
+}
+</script>
+<script type="application/json" id="discounts-data">
+{
+  "discounts": [
+    {
+      "id": "d01",
+      "restaurantId": "r01",
+      "type": "percent",
+      "label": "20% off",
+      "value": 20,
+      "description": "Dine-in after 6pm",
+      "expires": "2026-08-31"
+    },
+    {
+      "id": "d02",
+      "restaurantId": "r02",
+      "type": "fixed",
+      "label": "$20 off",
+      "value": 20,
+      "description": "Minimum spend $150",
+      "expires": "2026-08-15"
+    },
+    {
+      "id": "d03",
+      "restaurantId": "r03",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "On selected pasta dishes",
+      "expires": "2026-09-10"
+    },
+    {
+      "id": "d04",
+      "restaurantId": "r04",
+      "type": "percent",
+      "label": "15% off",
+      "value": 15,
+      "description": "Afternoon tea set",
+      "expires": "2026-08-20"
+    },
+    {
+      "id": "d05",
+      "restaurantId": "r05",
+      "type": "fixed",
+      "label": "$18 off",
+      "value": 18,
+      "description": "Grill combo for two",
+      "expires": "2026-08-25"
+    },
+    {
+      "id": "d06",
+      "restaurantId": "r06",
+      "type": "percent",
+      "label": "10% off",
+      "value": 10,
+      "description": "Takeaway orders",
+      "expires": "2026-09-05"
+    },
+    {
+      "id": "d07",
+      "restaurantId": "r07",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "House wine by the glass",
+      "expires": "2026-08-18"
+    },
+    {
+      "id": "d08",
+      "restaurantId": "r08",
+      "type": "percent",
+      "label": "20% off",
+      "value": 20,
+      "description": "Omakase dinner",
+      "expires": "2026-09-30"
+    },
+    {
+      "id": "d09",
+      "restaurantId": "r09",
+      "type": "fixed",
+      "label": "$20 off",
+      "value": 20,
+      "description": "Ramen set meal",
+      "expires": "2026-08-22"
+    },
+    {
+      "id": "d10",
+      "restaurantId": "r10",
+      "type": "percent",
+      "label": "12% off",
+      "value": 12,
+      "description": "Street snacks after 8pm",
+      "expires": "2026-09-12"
+    },
+    {
+      "id": "d11",
+      "restaurantId": "r11",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "Matcha desserts",
+      "expires": "2026-08-28"
+    },
+    {
+      "id": "d12",
+      "restaurantId": "r12",
+      "type": "percent",
+      "label": "18% off",
+      "value": 18,
+      "description": "Lunch curry rice",
+      "expires": "2026-09-08"
+    },
+    {
+      "id": "d13",
+      "restaurantId": "r13",
+      "type": "fixed",
+      "label": "$15 off",
+      "value": 15,
+      "description": "Skewers and drinks",
+      "expires": "2026-08-14"
+    },
+    {
+      "id": "d14",
+      "restaurantId": "r14",
+      "type": "percent",
+      "label": "10% off",
+      "value": 10,
+      "description": "Tempura set",
+      "expires": "2026-09-03"
+    },
+    {
+      "id": "d15",
+      "restaurantId": "r15",
+      "type": "percent",
+      "label": "20% off",
+      "value": 20,
+      "description": "Taco Tuesday special",
+      "expires": "2026-08-29"
+    },
+    {
+      "id": "d16",
+      "restaurantId": "r16",
+      "type": "fixed",
+      "label": "$20 off",
+      "value": 20,
+      "description": "Family nachos platter",
+      "expires": "2026-09-01"
+    },
+    {
+      "id": "d17",
+      "restaurantId": "r17",
+      "type": "bogo",
+      "label": "Buy 2 Get 1 Free",
+      "value": 20,
+      "description": "Fresh guacamole bowls",
+      "expires": "2026-08-17"
+    },
+    {
+      "id": "d18",
+      "restaurantId": "r18",
+      "type": "percent",
+      "label": "15% off",
+      "value": 15,
+      "description": "Sizzling fajitas",
+      "expires": "2026-09-15"
+    },
+    {
+      "id": "d19",
+      "restaurantId": "r19",
+      "type": "fixed",
+      "label": "$12 off",
+      "value": 12,
+      "description": "Churros and chocolate",
+      "expires": "2026-08-21"
+    },
+    {
+      "id": "d20",
+      "restaurantId": "r20",
+      "type": "percent",
+      "label": "10% off",
+      "value": 10,
+      "description": "Enchilada combo",
+      "expires": "2026-09-07"
+    }
+  ]
+}
+</script>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const resultsEl = document.getElementById('results');
+  const statsEl = document.getElementById('stats');
+  let restaurants = [];
+  let discounts = [];
+  let debounceTimer;
+
+    async function loadData() {
+    try {
+      const [rRes, dRes] = await Promise.all([
+        fetch('restaurants.json'),
+        fetch('discounts.json')
+      ]);
+      const rData = await rRes.json();
+      const dData = await dRes.json();
+      restaurants = rData.restaurants;
+      discounts = dData.discounts;
+    } catch (err) {
+      console.warn('fetch failed (likely file:// protocol), using embedded JSON fallback', err);
+      try {
+        restaurants = JSON.parse(document.getElementById('restaurants-data').textContent).restaurants;
+        discounts = JSON.parse(document.getElementById('discounts-data').textContent).discounts;
+      } catch (fallbackErr) {
+        resultsEl.innerHTML = '<div class="empty-state"><h2>載入失敗 Loading failed</h2><p>請確認 restaurants.json 及 discounts.json 存在，或使用網頁伺服器開啟。<br>Please ensure JSON files exist or open via a local server.</p></div>';
+        console.error(fallbackErr);
+        return;
+      }
+    }
+    render('');
+  }
+
+  function getDiscount(restaurantId) {
+    return discounts.find(d => d.restaurantId === restaurantId);
+  }
+
+  function discountClass(type) {
+    if (type === 'bogo') return 'discount-sticker bogo';
+    if (type === 'fixed') return 'discount-sticker fixed';
+    return 'discount-sticker';
+  }
+
+  function rank(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) {
+      // Empty query: suggested first, then by style, then rating
+      const sorted = [...restaurants].sort((a, b) => {
+        if (a.suggested !== b.suggested) return b.suggested - a.suggested;
+        if (a.style !== b.style) return a.style.localeCompare(b.style);
+        return b.rating - a.rating;
+      });
+      return sorted.map(r => ({ ...r, score: 0, topPick: r.suggested }));
+    }
+
+    const scored = restaurants.map(r => {
+      const nameMatch = r.name.toLowerCase().includes(q) ? 3 : 0;
+      const styleMatch = r.style.toLowerCase().includes(q) ? 2 : 0;
+      const tagMatch = r.tags.some(t => t.toLowerCase().includes(q)) ? 1 : 0;
+      const discount = getDiscount(r.id);
+      const discountMatch = discount && discount.label.toLowerCase().includes(q) ? 1 : 0;
+      const score = nameMatch + styleMatch + tagMatch + discountMatch;
+      return { ...r, score };
+    });
+
+    const matched = scored.filter(r => r.score > 0);
+    if (matched.length === 0) return [];
+
+    // Find dominant style among matches
+    const styleCounts = {};
+    matched.forEach(r => { styleCounts[r.style] = (styleCounts[r.style] || 0) + 1; });
+    const topStyle = Object.entries(styleCounts).sort((a, b) => b[1] - a[1])[0][0];
+
+    const suggestedForStyle = matched.find(r => r.style === topStyle && r.suggested);
+
+    // If user typed a specific restaurant name, find a similar suggested one
+    const exactNameHit = matched.find(r => r.name.toLowerCase().includes(q));
+    let similarSuggested = null;
+    if (exactNameHit) {
+      similarSuggested = restaurants.find(r =>
+        r.style === exactNameHit.style && r.suggested && r.id !== exactNameHit.id
+      );
+    }
+
+    const sorted = [...matched].sort((a, b) => {
+      if (a.id === exactNameHit?.id) return -1;
+      if (b.id === exactNameHit?.id) return 1;
+      if (a.id === suggestedForStyle?.id) return -1;
+      if (b.id === suggestedForStyle?.id) return 1;
+      if (b.score !== a.score) return b.score - a.score;
+      return b.rating - a.rating;
+    });
+
+    // Insert similar suggested directly below the exact-name hit
+    if (similarSuggested && !sorted.find(r => r.id === similarSuggested.id)) {
+      const insertAt = sorted.findIndex(r => r.id === exactNameHit?.id) + 1;
+      sorted.splice(insertAt, 0, similarSuggested);
+    }
+
+    // Mark the very first result as top pick
+    if (sorted.length > 0) sorted[0].topPick = true;
+
+    return sorted;
+  }
+
+  function render(query) {
+    const results = rank(query);
+
+    if (results.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="empty-state">
+          <h2>搵唔到結果 No results</h2>
+          <p>試試其他關鍵字 · Try Italian, Sushi, or Tacos</p>
+        </div>`;
+      statsEl.innerHTML = '';
+      return;
+    }
+
+    statsEl.innerHTML = `
+      <span class="pill">找到 ${results.length} 間 Found ${results.length}</span>
+      ${query ? `<span>搜尋 · Search: “${escapeHtml(query)}”</span>` : '<span>顯示全部 · Showing all</span>'}
+    `;
+
+    resultsEl.innerHTML = results.map((r, i) => {
+      const discount = getDiscount(r.id);
+      const discountLabel = discount ? discount.label : '';
+      const discountType = discount ? discount.type : '';
+      const topPick = r.topPick || i === 0;
+      return `
+        <article class="restaurant-card ${r.suggested ? 'suggested' : ''} ${topPick ? 'top-pick' : ''}">
+          ${r.suggested ? '<span class="peel">👑 推薦 Suggested</span>' : ''}
+          ${topPick ? '<span class="top-badge">Top Pick ✦</span>' : ''}
+          <span class="style-tag">${escapeHtml(r.style)}</span>
+          <h3>${escapeHtml(r.name)}</h3>
+          ${discountLabel ? `<div class="${discountClass(discountType)}">${escapeHtml(discountLabel)}</div>` : ''}
+          <p class="meta">${escapeHtml(r.location)} · ⭐ ${r.rating} · ${escapeHtml(r.tags.slice(0, 3).join(', '))}</p>
+          ${r.suggested ? '<p class="suggested-badge">✓ 抵Buy 精選 Pick</p>' : ''}
+        </article>
+      `;
+    }).join('');
+  }
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  searchInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => render(searchInput.value), 150);
+  });
+
+  loadData();
+</script>
+</body>
+</html>
